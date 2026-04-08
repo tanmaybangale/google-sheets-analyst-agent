@@ -1,0 +1,39 @@
+"""
+=============================================================================
+File: .gitignore
+Capabilities:
+1. Security: Prevents accidental commits of .env files and JSON keys.
+2. Data Privacy: Blocks local data files (CSV, Excel) from entering version control.
+3. Cleanliness: Ignores Python cache and virtual environment folders.
+=============================================================================
+"""
+
+# Security & Environment Variables
+.env
+credentials.json
+token.json
+*service_account*.json
+
+# Data Files (Prevent accidental uploads of large/sensitive files)
+*.csv
+*.xlsx
+*.xls
+*.parquet
+*.duckdb
+*.db
+
+# Python Virtual Environments
+venv/
+env/
+.venv/
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# OS Generated Files
+.DS_Store
+Thumbs.db
+
+gcs_service_account.json
