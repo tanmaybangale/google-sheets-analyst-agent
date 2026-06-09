@@ -36,20 +36,40 @@ Before deploying, follow these navigation steps in the [Google Cloud Console](ht
 ### 1. Enable Required APIs
 * Navigate to **APIs & Services > Library**.
 * Search for and **Enable** the following two APIs:
-    1.  `Vertex AI API` (`aiplatform.googleapis.com`)
+    1.  `Agent Platform API` (`aiplatform.googleapis.com`)
     2.  `Google Drive API` (`drive.googleapis.com`)
 
 ### 2. Create OAuth 2.0 Credentials
 * Navigate to **APIs & Services > OAuth Consent Screen**. Configure it for your organization.
 * Go to **Credentials > Create Credentials > OAuth Client ID**.
 * Select **Web Application**.
+* Under Authorized redirect URIs add these two Urls :  **https://vertexaisearch.cloud.google.com/static/oauth/oauth.html and https://vertexaisearch.cloud.google.com/oauth-redirect**
 * Note your **Client ID** and **Client Secret**.
 
 ---
 
-## ⚙️ Environment Configuration
 
-Ensure your local `.env` file is populated with your project details. These variables will be read by the ADK during the deployment process.
+## 🚀 Deploying the Agent on Gemini Enterprise
+
+Once you are sure of the code and the output, you can get ready for the deployment. 
+
+This section provides a comprehensive walkthrough for deploying an AI agent within the Gemini
+Enterprise ecosystem. It focuses on the specific IAM roles and service permissions required for
+reasoning services, data integration with Google Sheets, and storage access.
+
+### STEP 1: Activate your python environment
+Activate your python virtual environment
+
+
+```bash
+git clone https://github.com/tanmaybangale/google-sheets-analyst-agent.git
+python3 -m venv .venv       #Python virtual environment creation
+source .venv/bin/activate  #Activate the virtual environment
+pip3 install -r requirements.txt #install required dependencies
+cd google-sheets-analyst-agent
+```
+
+Create the following `.env` file in the project folder google-sheets-analyst-agent and fill the required values into the variables. These variables will be read by the ADK during the deployment process.
 
 ```bash
 # --- Google Cloud Platform Config ---
@@ -66,24 +86,6 @@ GOOGLE_CLIENT_ID=""
 GOOGLE_CLIENT_SECRET=""
 ```
 
-## 🚀 Deploying the Agent on Gemini Enterprise
-
-Once you are sure of the code and the output, you can get ready for the deployment. 
-
-This section provides a comprehensive walkthrough for deploying an AI agent within the Gemini
-Enterprise ecosystem. It focuses on the specific IAM roles and service permissions required for
-reasoning services, data integration with Google Sheets, and storage access.
-
-### STEP 1: Activate your python environment
-Activate your python virtual environment
-
-
-```bash
-python3 -m venv .venv       #Python virtual environment creation
-source .venv/bin/activate  #Activate the virtual environment
-pip3 install -r requirements.txt #install required dependencies
-cd google-sheets-analyst-agent
-```
 
 ### Deploy the agent in Vertex AI Agent Engine
 ```bash
@@ -98,7 +100,7 @@ The agent deployed on the Vertex AI Agent Engine uses the Vertex AI Reasoning de
 1. Go to Google cloud console, IAM
 2. Tick the check box on top right "Include Google-provided role grants"
 3. Locate the account with email : `service-PROJECT_NUMBER@gcp-sa-aiplatform-re.iam.gserviceaccount.com`. (If you don't see this account, ensure you have run adk deploy at least once.)
-4. Edit permissions, Add `Service Usage Consumer` (Storage permissions are no longer needed as we use ADK Artifacts).
+4. Edit permissions, Add `Service Usage Consumer` .
 
 
 ## Create Gemini Enterprise App
@@ -119,7 +121,7 @@ The agent deployed on the Vertex AI Agent Engine uses the Vertex AI Reasoning de
 1. In the Google Cloud console, go to the [Gemini Enterprise page](https://console.cloud.google.com/gemini-enterprise/start).
 2. Select the App you created, Click "+ Add agents"
 3. Click "Custom agent via Agent Engine*
-4. In the Authorization, click on Add Authorization and provide the below details:
+4. In the Authorization, click on Add Authorization and provide the below details (Make sure to replace client id the Authentication URL below):
    - **Authorizartion Name**: Any Name (Ex: excel-analysis-agent-auth)
    - **Client ID**: Provide the client id received from step - Create OAuth 2.0 Credentials
    - **Client Secret**: Provide the client secret received from step - Create OAuth 2.0 Credentials
