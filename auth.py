@@ -118,6 +118,7 @@ def get_drive_service(tool_context: ToolContext):
             logger.info("Building Drive API service...")
             creds = Credentials(token=access_token, scopes=["https://www.googleapis.com/auth/drive"])
             service = build('drive', 'v3', credentials=creds)
+            service.access_token = access_token
             logger.info("SUCCESS: Drive service is ready.")
             return service
         except Exception as e:
